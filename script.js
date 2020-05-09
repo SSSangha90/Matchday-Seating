@@ -31,6 +31,25 @@ const updateSelectedCount = () => {
     total.innerText = selectedSeatsCount * ticketPrice
 }
 
+// Get data from local storage and populate UI
+const populateUI = () => {
+    const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats'))
+    if(selectedSeats !== null && selectedSeats.length > 0){
+        seats.forEach((seat, index) => {
+            if(selectedSeats.indexOf(index) > -1){
+                seat.classList.add('selected')
+            }
+        })
+    }
+    const selectedMatchIndex = localStorage.getItem('selectedMatchIndex')
+
+    if(selectedMatchIndex !== null){
+        matchSelect.selectedIndex = selectedMatchIndex
+    }
+}
+
+populateUI()
+
 // Match select event
 matchSelect.addEventListener('change', e => {
     ticketPrice = +e.target.value
@@ -48,3 +67,6 @@ container.addEventListener('click', e => {
         updateSelectedCount()
     }
 })
+
+// Initial count and total set
+updateSelectedCount()
